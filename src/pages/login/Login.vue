@@ -1,6 +1,7 @@
 <template>
   <div class="container-login">
     <div class="wallpaper-login"></div>
+
     <div class="box-login">
       <img :src="logo" class="logo" alt="logo" />
 
@@ -20,7 +21,7 @@
         v-model="password"
         label="Senha"
         :type="isPwd ? 'password' : 'text'"
-        @keyup="login"
+        @keyup.enter="login"
       >
         <template #append>
           <q-icon
@@ -45,64 +46,60 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import Logo from '../../assets/logo_quest_2.jpg'
-import { ref } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
+import Logo from '../../assets/logo_quest_2.jpg'
 
 export default defineComponent({
   name: 'LoginPage',
-  setup() {
-    const teste = () => {
-      const $q = useQuasar()
 
-      $q.notify({
-        message: 'Email ou senha inválidos',
-        color: 'negative',
-        icon: 'warning',
-        position: 'bottom',
-      })
-    }
-    return {
-      email: ref(''),
-      password: ref(''),
-      loading: ref(false),
-      logo: Logo,
-      isPwd: ref(true),
-      teste,
-    }
-  },
-  computed: {},
-  methods: {
-    log(string) {
-      console.log(string)
-    },
-    login() {
-      const $q = useQuasar()
+  setup() {
+    const $q = useQuasar()
+    const router = useRouter()
+
+    const email = ref('')
+    const password = ref('')
+    const loading = ref(false)
+    const isPwd = ref(true)
+
+    const isDisableBtn = computed(() => {
+      return email.value.length > 0 && password.value.length > 0
+    })
+
+    const login = () => {
       try {
-        this.loading = true
-        window.localStorage.setItem('email', this.email)
-        window.localStorage.setItem('login', true)
-        const route = useRouter()
-        route.push({ name: 'Embarques' })
-        this.loading = false
+        loading.value = true
+
+        localStorage.setItem('email', email.value)
+        localStorage.setItem('login', 'true')
+
+        router.push('/')
       } catch (ex) {
         console.error(ex)
+
         $q.notify({
           type: 'warning',
           message: 'Algo deu errado!',
         })
-        this.loading = false
+      } finally {
+        loading.value = false
       }
-    },
+    }
 
-    isDisableBtn() {
-      return (this.email.length > 0 && this.password.length > 0) === true
-    },
+    return {
+      email,
+      password,
+      loading,
+      logo: Logo,
+      isPwd,
+      isDisableBtn,
+      login,
+    }
   },
 })
 </script>
+
 <style lang="scss">
 @import '../../css/quasar.variables.scss';
 @import '../../css/responsive.scss';

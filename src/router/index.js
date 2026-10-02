@@ -33,12 +33,15 @@ export default defineRouter((/* { store, ssrContext } */) => {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(import.meta.env.QUASAR_VUE_ROUTER_BASE),
   })
-  Router.beforeEach(async (to, from, next) => {
-    const login = window.localStorage.getItem('user')
-    if (login == null || login == '') {
-      return next('/login')
+  Router.beforeEach(async (to) => {
+    const login = localStorage.getItem('login')
+
+    if (to.path === '/login') return true
+
+    if (login == null || login == '' || login == 'false') {
+      return '/login'
     }
-    return next()
+    return true
   })
   // enable HMR for it
 
