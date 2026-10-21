@@ -118,8 +118,8 @@ function toggleLeftDrawer() {
 }
 
 function logoutUser(){
-        localStorage.setItem('email', null)
-        localStorage.setItem('login', false)
+        localStorage.removeItem('email')
+        localStorage.removeItem('login')
 
         router.push('/login')
 }
