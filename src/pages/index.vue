@@ -13,7 +13,7 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered :breakpoint="400">
       <q-img
         class="absolute-top"
-        src="https://images.pexels.com/photos/7025165/pexels-photo-7025165.jpeg"
+        src="https://images.pexels.com/photos/7018123/pexels-photo-7018123.jpeg"
         style="height: 150px"
       >
         <div class="absolute-bottom bg-transparent">
