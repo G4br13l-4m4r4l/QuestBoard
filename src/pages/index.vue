@@ -29,7 +29,9 @@
             @click="logoutUser"
             color="white"
             icon="logout"
-          />
+          >
+        <q-tooltip v-model="showing">Logout</q-tooltip>
+        </q-btn>
         </div>
       </q-img>
 
@@ -43,17 +45,21 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <q-page v-if="route.path === '/'" class="flex flex-center">
+        <img src="../assets/logo_quest_2.jpg" class="logo" alt="logo" height="200" />
+      </q-page>
+      <router-view v-else />
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import EssentialLink from '@/components/EssentialLink.vue'
 
 const router = useRouter()
+const route = useRoute()
 const linksList = [
   {
     label: 'Sessões',
@@ -93,7 +99,7 @@ const linksList = [
   },
   {
     label: 'Config.',
-    caption: 'Nome, foto, ...',
+    caption: 'Nome, foto, email e personalização',
     icon: 'settings',
     link: '/config',
   },
@@ -115,5 +121,10 @@ function logoutUser() {
 <style lang="scss">
 body {
   background-color: #250e39;
+}
+
+.logo {
+  max-width: 100%;
+  object-fit: contain;
 }
 </style>

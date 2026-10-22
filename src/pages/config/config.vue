@@ -3,7 +3,7 @@
     <div class="column items-center">
       deu certo
 
-      <q-btn class="q-mt-md" color="primary" to="/" label="Go to Second Page" no-caps />
+      <q-btn class="q-mt-md" color="primary" to="/" label="Go to back Page" no-caps />
     </div>
   </q-page>
 </template>
