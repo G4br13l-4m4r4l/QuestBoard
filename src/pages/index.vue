@@ -6,7 +6,7 @@
 
         <q-toolbar-title> QuestBoard </q-toolbar-title>
 
-        <div>v0.0.1</div>
+        <div>v0.0.2</div>
       </q-toolbar>
     </q-header>
 
@@ -18,7 +18,7 @@
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img alt="User avatar" src="https://cdn.quasar.dev/img/boy-avatar.png" />
+            <img alt="User avatar" :src="avatarUrl" />
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -30,8 +30,8 @@
             color="white"
             icon="logout"
           >
-        <q-tooltip v-model="showing">Logout</q-tooltip>
-        </q-btn>
+            <q-tooltip v-model="showing">Logout</q-tooltip>
+          </q-btn>
         </div>
       </q-img>
 
@@ -54,48 +54,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import EssentialLink from '@/components/EssentialLink.vue'
+import { avatarUrl, refreshAvatar } from '@/composables/profileAvatar.js'
 
 const router = useRouter()
 const route = useRoute()
+onMounted(refreshAvatar)
 const linksList = [
   {
     label: 'Sessões',
     caption: 'Calendário, presenças, planejamento, registro e retrospectiva de sessões.',
-    icon: 'badge',
-    link: '/',
+    icon: 'event',
+    link: '/sessoes',
   },
   {
     label: 'Campanhas e personagens',
     caption: 'Participantes, fichas, evolução, relações e permissões.',
-    icon: 'assignment',
-    link: '/',
+    icon: 'groups',
+    link: '/campanhas',
   },
   {
     label: 'Biblioteca',
     caption: 'Anotações, wiki, mapas, NPCs, locais, itens e lore.',
-    icon: 'chat',
-    link: '/',
+    icon: 'menu_book',
+    link: '/biblioteca',
   },
   {
     label: 'Missões',
     caption: 'Objetivos, progresso, recompensas e histórico narrativo.',
-    icon: 'chat',
-    link: '/',
+    icon: 'flag',
+    link: '/missoes',
   },
   {
     label: 'Votações',
     caption: 'Datas, alimentação, logística e decisões do grupo.',
-    icon: 'record_voice_over',
-    link: '/',
+    icon: 'how_to_vote',
+    link: '/votacoes',
   },
   {
     label: 'Ferramentas',
     caption: 'Dados, iniciativa, temporizadores e geradores de conteúdo.',
-    icon: 'settings',
-    link: '/',
+    icon: 'handyman',
+    link: '/ferramentas',
   },
   {
     label: 'Config.',
