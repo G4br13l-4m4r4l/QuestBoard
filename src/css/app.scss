@@ -35,3 +35,158 @@
 .select-popup .q-item.q-manual-focusable--active {
   background: rgba(255, 255, 255, 0.12);
 }
+
+// QDrawer places custom classes on its content; the white default belongs to the outer aside.
+.app-shell .q-drawer,
+.app-shell .q-drawer__content.app-drawer {
+  background-color: #3a254d !important;
+  color: #f8f4fb;
+}
+
+.app-shell .q-drawer {
+  border-right: 1px solid rgba(219, 184, 111, 0.23);
+}
+
+// Shared look for the adventure dashboard and its sections.
+.section-page.quest-page,
+.config-page.quest-page,
+.quest-page {
+  min-height: calc(100vh - 68px);
+  background: radial-gradient(circle at 95% 0, rgba(84, 42, 113, 0.24), transparent 38%), #190b28;
+  color: #f8f4fb;
+}
+
+.quest-page .page-content.quest-content,
+.quest-content {
+  width: min(100%, 1250px);
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 38px clamp(20px, 3.2vw, 48px) 72px;
+}
+
+.quest-eyebrow {
+  margin: 0;
+  color: #dbb86f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.quest-page .page-heading {
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgba(219, 184, 111, 0.25);
+}
+
+.quest-page .page-heading .heading-icon,
+.quest-page .item-card .item-icon {
+  color: #dbb86f;
+  background: #382249;
+  border: 1px solid #665079;
+  border-radius: 11px;
+}
+
+.quest-page .page-heading .eyebrow {
+  color: #dbb86f;
+  letter-spacing: 0.2em;
+}
+
+.quest-page .page-heading h1 {
+  color: #f8f4fb;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.quest-page .page-heading p,
+.quest-page .section-heading p,
+.quest-page .config-card p,
+.quest-page .item-description,
+.quest-page .text-grey-7 {
+  color: #b9a9c4 !important;
+}
+
+.quest-page .page-content .mock-banner {
+  color: #d6c2e5;
+  background: #30203f;
+  border: 1px solid #59446b;
+}
+
+.quest-page .stats-grid .stat-card,
+.quest-page .items-grid .item-card,
+.quest-page .config-grid .config-card {
+  color: #f8f4fb;
+  background: #271637;
+  border-color: #4a365a;
+  border-radius: 13px;
+  box-shadow: 0 8px 22px rgba(8, 3, 16, 0.13);
+}
+
+.quest-page .stats-grid .stat-card {
+  border-top: 2px solid #dbb86f;
+}
+
+.quest-page .stat-card .stat-value {
+  color: #f8f4fb;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+.quest-page .content-section h2,
+.quest-page .config-card h2 {
+  color: #f8f4fb;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.quest-page .item-card h3 {
+  color: #f8f4fb;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+.quest-page .item-card .item-meta {
+  color: #dbb86f;
+}
+
+.quest-page .item-card .q-badge,
+.quest-page .config-card .q-badge {
+  border-radius: 5px;
+}
+
+.quest-page .config-card .preference-row {
+  border-top-color: #4a365a;
+}
+
+.quest-page .config-card .q-field__control {
+  color: #f8f4fb;
+  background: #30203f;
+  border-radius: 9px;
+}
+
+.quest-page .config-card .q-field__control::before {
+  border-color: #665079;
+}
+
+.quest-page .config-card .q-field__native,
+.quest-page .config-card .q-field__label,
+.quest-page .config-card .q-field__input {
+  color: #f8f4fb;
+}
+
+.quest-page .config-card .q-field__bottom {
+  color: #a999b6;
+}
+
+@media (max-width: 700px) {
+  .quest-page .page-content.quest-content,
+  .quest-content {
+    padding: 24px 16px 52px;
+  }
+  .quest-page .page-heading {
+    align-items: flex-start;
+  }
+}

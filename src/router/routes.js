@@ -15,6 +15,7 @@ const routes = [
       { path: 'config', component: () => import('../pages/config/config.vue') },
     ],
   },
+  { path: '/:pathMatch(.*)*', component: () => import('../pages/[...path].vue') },
 ]
 
 export default routes

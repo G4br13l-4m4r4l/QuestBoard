@@ -1,6 +1,6 @@
 <template>
-  <q-page class="section-page">
-    <div class="page-content">
+  <q-page class="section-page quest-page">
+    <div class="page-content quest-content">
       <div class="page-heading">
         <div class="heading-icon"><q-icon :name="page.icon" size="30px" /></div>
         <div>
@@ -64,7 +64,7 @@ const page = computed(() => menuPages[props.section])
 
 <style scoped lang="scss">
 .section-page {
-  background: #f7f4fa;
+  background: #190b28;
   min-height: 100vh;
 }
 .page-content {
@@ -83,8 +83,8 @@ const page = computed(() => menuPages[props.section])
   display: grid;
   place-items: center;
   flex: none;
-  color: #693895;
-  background: #eee5f7;
+  color: #dbb86f;
+  background: #382249;
   border-radius: 14px;
 }
 .heading-icon {
@@ -97,7 +97,7 @@ const page = computed(() => menuPages[props.section])
   margin-right: 14px;
 }
 .eyebrow {
-  color: #744b99;
+  color: #dbb86f;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -111,15 +111,15 @@ h1 {
 }
 .page-heading p,
 .section-heading p {
-  color: #71677a;
+  color: #d9cbe2;
   margin: 0;
 }
 .mock-banner {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #674987;
-  background: #f0e9f8;
+  color: #e5d7ed;
+  background: #30203f;
   border-radius: 10px;
   padding: 10px 14px;
   margin-bottom: 24px;
@@ -131,15 +131,15 @@ h1 {
 }
 .stat-card,
 .item-card {
-  border-color: #e9e1ef;
+  border-color: #4a365a;
   border-radius: 14px;
-  background: white;
+  background: #271637;
 }
 .stat-value {
   font-size: 26px;
   font-weight: 700;
   line-height: 1.2;
-  color: #29163d;
+  color: #f8f4fb;
 }
 .content-section {
   margin-top: 34px;
@@ -165,12 +165,12 @@ h3 {
   margin: 0;
 }
 .item-meta {
-  color: #80658f;
+  color: #dbb86f;
   font-size: 13px;
   margin: 5px 0;
 }
 .item-description {
-  color: #71677a;
+  color: #d9cbe2;
   margin: 0;
 }
 @media (max-width: 700px) {

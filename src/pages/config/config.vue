@@ -1,6 +1,6 @@
 <template>
-  <q-page class="config-page">
-    <div class="page-content">
+  <q-page class="config-page quest-page">
+    <div class="page-content quest-content">
       <div class="page-heading">
         <div class="heading-icon"><q-icon name="settings" size="30px" /></div>
         <div>
@@ -170,7 +170,7 @@ function saveProfile() {
 
 <style scoped lang="scss">
 .config-page {
-  background: #f7f4fa;
+  background: #190b28;
   min-height: 100vh;
 }
 .page-content {
@@ -190,12 +190,12 @@ function saveProfile() {
   width: 54px;
   height: 54px;
   flex: none;
-  color: #693895;
-  background: #eee5f7;
+  color: #dbb86f;
+  background: #382249;
   border-radius: 14px;
 }
 .eyebrow {
-  color: #744b99;
+  color: #dbb86f;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -208,7 +208,7 @@ h1 {
   margin: 4px 0 8px;
 }
 .page-heading p {
-  color: #71677a;
+  color: #d9cbe2;
   margin: 0;
 }
 .config-grid {
@@ -218,7 +218,8 @@ h1 {
   align-items: start;
 }
 .config-card {
-  border-color: #e9e1ef;
+  border-color: #4a365a;
+  background: #271637;
   border-radius: 14px;
 }
 .config-card :deep(.q-card__section) {
@@ -237,7 +238,7 @@ h2 {
   align-items: center;
   gap: 12px;
   padding: 12px 0;
-  border-top: 1px solid #eee8f3;
+  border-top: 1px solid #4a365a;
 }
 .preference-row span {
   flex: 1;
