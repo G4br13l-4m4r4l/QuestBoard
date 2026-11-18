@@ -6,7 +6,7 @@
         <q-toolbar-title>
           <router-link to="/" class="toolbar-brand"><span>✦</span> QUESTBOARD</router-link>
         </q-toolbar-title>
-        <div>v0.0.3</div>
+        <div>v0.0.4</div>
       </q-toolbar>
     </q-header>
 

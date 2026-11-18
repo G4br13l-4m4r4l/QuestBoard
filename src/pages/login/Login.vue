@@ -336,6 +336,7 @@ h1 {
 @media (max-width: 900px) {
   .login-page {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
 
   .login-art {
@@ -353,7 +354,8 @@ h1 {
   }
 
   .hero-image {
-    width: 390px;
+    width: min(100%, 390px);
+    min-height: 0;
     max-height: 170px;
   }
 
@@ -362,7 +364,7 @@ h1 {
   }
 
   .login-panel {
-    padding: 44px 24px 60px;
+    padding: 44px max(24px, env(safe-area-inset-right)) 60px max(24px, env(safe-area-inset-left));
   }
 
   .brand-mark {
@@ -370,25 +372,106 @@ h1 {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .login-page {
+    align-content: start;
+    grid-template-rows: auto auto;
+    background: radial-gradient(circle at 50% 8%, #43205d 0, var(--night) 48%);
+  }
+
   .login-art {
-    height: 195px;
+    height: 210px;
+    padding: max(24px, env(safe-area-inset-top)) 24px 0;
+    background: transparent;
+  }
+
+  .art-frame {
+    justify-content: center;
+    border: 0;
+    background: transparent;
+  }
+
+  .art-frame::before,
+  .art-frame::after,
+  .art-kicker,
+  .section-label,
+  .intro,
+  .panel-footer {
+    display: none;
   }
 
   .hero-image {
-    max-height: 140px;
+    width: min(100%, 220px);
+    max-height: 180px;
   }
 
   .login-panel {
     place-items: start center;
+    padding-top: 12px;
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
+    background: transparent;
   }
 
-  .intro {
-    margin-bottom: 32px;
+  .login-content {
+    max-width: 360px;
   }
 
-  .panel-footer {
-    margin-top: 42px;
+  .brand-mark {
+    margin-bottom: 18px;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+    font-size: clamp(30px, 8vw, 38px);
+    text-align: center;
+  }
+
+  .login-input {
+    margin-bottom: 18px;
+  }
+
+  .login-input :deep(.q-field__native) {
+    font-size: 16px;
+  }
+
+  .login-button {
+    height: 48px;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 600px) and (max-height: 650px) {
+  .login-art {
+    height: 155px;
+    padding-top: max(12px, env(safe-area-inset-top));
+  }
+
+  .hero-image {
+    width: min(100%, 165px);
+    max-height: 140px;
+  }
+
+  .login-panel {
+    padding-top: 8px;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+
+  .brand-mark {
+    margin-bottom: 12px;
+  }
+
+  .brand-mark span {
+    font-size: 22px;
+  }
+
+  h1 {
+    margin-bottom: 22px;
+    font-size: clamp(27px, 8vw, 32px);
+  }
+
+  .login-input {
+    margin-bottom: 14px;
   }
 }
 </style>
