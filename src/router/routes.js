@@ -11,6 +11,11 @@ const routes = [
       { path: 'biblioteca', component: sectionPage, props: { section: 'biblioteca' } },
       { path: 'missoes', component: sectionPage, props: { section: 'missoes' } },
       { path: 'votacoes', component: sectionPage, props: { section: 'votacoes' } },
+      { path: 'votacoes/nova', component: () => import('../pages/votacoes/NovaVotacao.vue') },
+      {
+        path: 'votacoes/:source/:id',
+        component: () => import('../pages/votacoes/DetalheVotacao.vue'),
+      },
       { path: 'ferramentas', component: sectionPage, props: { section: 'ferramentas' } },
       { path: 'config', component: () => import('../pages/config/config.vue') },
     ],

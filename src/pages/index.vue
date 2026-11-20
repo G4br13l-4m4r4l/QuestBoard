@@ -6,7 +6,7 @@
         <q-toolbar-title>
           <router-link to="/" class="toolbar-brand"><span>✦</span> QUESTBOARD</router-link>
         </q-toolbar-title>
-        <div>v0.0.4</div>
+        <div>v0.0.5</div>
       </q-toolbar>
     </q-header>
 
@@ -20,7 +20,10 @@
         <div class="drawer-profile">
           <q-avatar size="46px"><img alt="Foto do perfil" :src="avatarUrl" /></q-avatar>
           <div class="profile-copy">
-            <strong>{{ displayName }}</strong>
+            <div class="profile-name">
+              <strong>{{ displayName }}</strong>
+              <q-badge class="dm-badge" label="DM" />
+            </div>
             <small>{{ userEmail }}</small>
           </div>
         </div>
@@ -160,6 +163,22 @@ function logoutUser() {
 }
 .profile-copy strong {
   font-size: 13px;
+}
+.profile-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.profile-name strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dm-badge {
+  color: #190b28;
+  background: #dbb86f;
+  font-weight: 700;
 }
 .profile-copy small {
   overflow: hidden;

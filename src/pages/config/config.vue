@@ -20,7 +20,10 @@
                 <img :src="avatarUrl" alt="Foto do perfil" />
               </q-avatar>
               <div class="q-ml-md">
-                <div class="text-weight-bold">{{ name || 'Aventureiro' }}</div>
+                <div class="row items-center q-gutter-sm">
+                  <span class="text-weight-bold">{{ name || 'Aventureiro' }}</span>
+                  <q-badge class="dm-badge" label="DM" />
+                </div>
                 <div class="text-grey-7">{{ email }}</div>
               </div>
             </div>
@@ -69,8 +72,30 @@
           </q-card-section>
         </q-card>
 
-        <div>
+        <div class="config-side">
           <q-card flat bordered class="config-card q-mb-md">
+            <q-card-section>
+              <h2>Acesso à conta</h2>
+              <p class="text-grey-7">Gerencie os dados usados para acessar sua conta.</p>
+              <div class="row q-gutter-sm">
+                <q-btn
+                  outline
+                  no-caps
+                  color="secondary"
+                  label="Alterar e-mail"
+                  @click="openEmailDialog"
+                />
+                <q-btn
+                  outline
+                  no-caps
+                  color="secondary"
+                  label="Alterar senha"
+                  @click="openPasswordDialog"
+                />
+              </div>
+            </q-card-section>
+          </q-card>
+          <q-card flat bordered class="config-card preferences-card">
             <q-card-section>
               <h2>Preferências</h2>
               <p class="text-grey-7">Configurações planejadas para próximas versões.</p>
@@ -86,17 +111,127 @@
               </div>
             </q-card-section>
           </q-card>
-          <q-card flat bordered class="config-card">
-            <q-card-section>
-              <h2>Sobre o QuestBoard</h2>
-              <p class="text-grey-7 q-mb-none">
-                Espaço para reunir campanhas, sessões e decisões do seu grupo. Versão 0.0.1.
-              </p>
-            </q-card-section>
-          </q-card>
         </div>
+        <q-card flat bordered class="config-card about-card">
+          <q-card-section>
+            <h2>Sobre o QuestBoard</h2>
+            <p class="text-grey-7 q-mb-none">
+              Espaço para reunir campanhas, sessões e decisões do seu grupo. Versão 0.0.1.
+            </p>
+          </q-card-section>
+        </q-card>
       </div>
     </div>
+    <q-dialog v-model="emailDialog">
+      <q-card class="account-dialog">
+        <q-form @submit.prevent="openConfirmation('email')">
+          <q-card-section>
+            <h2>Alterar e-mail</h2>
+            <p class="dialog-description">
+              Confirme o novo e-mail para atualizá-lo neste navegador.
+            </p>
+            <q-input
+              v-model.trim="newEmail"
+              dark
+              outlined
+              type="email"
+              label="Novo e-mail"
+              autocomplete="email"
+              :rules="[validateEmail]"
+            />
+            <q-input
+              v-model.trim="confirmationEmail"
+              dark
+              outlined
+              type="email"
+              label="Confirme o novo e-mail"
+              autocomplete="off"
+              reactive-rules
+              :rules="[(value) => validateEmailConfirmation(value, newEmail)]"
+            />
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn v-close-popup flat no-caps label="Cancelar" />
+            <q-btn type="submit" color="secondary" no-caps label="Confirmar alteração" />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="passwordDialog">
+      <q-card class="account-dialog">
+        <q-form @submit.prevent="openConfirmation('password')">
+          <q-card-section>
+            <h2>Alterar senha</h2>
+            <p class="dialog-description">
+              A alteração de senha estará disponível quando a autenticação da conta for
+              implementada.
+            </p>
+            <q-input
+              v-model="currentPassword"
+              dark
+              outlined
+              type="password"
+              label="Senha atual"
+              autocomplete="current-password"
+              :rules="[(value) => !!value || 'Informe sua senha atual.']"
+            />
+            <q-input
+              v-model="newPassword"
+              dark
+              outlined
+              type="password"
+              label="Nova senha"
+              autocomplete="new-password"
+              :rules="[(value) => !!value || 'Informe a nova senha.']"
+            />
+            <q-input
+              v-model="confirmationPassword"
+              dark
+              outlined
+              type="password"
+              label="Confirme a nova senha"
+              autocomplete="new-password"
+              reactive-rules
+              :rules="[
+                (value) => !!value || 'Confirme a nova senha.',
+                (value) => value === newPassword || 'As senhas não coincidem.',
+              ]"
+            />
+            <p v-if="passwordFeedback" role="status" class="dialog-description q-mb-none">
+              {{ passwordFeedback }}
+            </p>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn v-close-popup flat no-caps label="Cancelar" />
+            <q-btn type="submit" color="secondary" no-caps label="Confirmar alteração" />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="confirmationDialog">
+      <q-card class="account-dialog">
+        <q-card-section>
+          <h2>
+            {{
+              confirmationType === 'email'
+                ? 'Confirmar alteração de e-mail'
+                : 'Confirmar alteração de senha'
+            }}
+          </h2>
+          <p v-if="confirmationType === 'email'" class="dialog-description q-mb-none">
+            Deseja atualizar o e-mail neste navegador para <strong>{{ newEmail }}</strong
+            >?
+          </p>
+          <p v-else class="dialog-description q-mb-none">
+            Deseja confirmar esta ação? A alteração de senha ainda não está disponível.
+          </p>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn v-close-popup flat no-caps label="Voltar" />
+          <q-btn color="secondary" no-caps label="Confirmar" @click="confirmAction" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -104,7 +239,17 @@
 import { onMounted, ref } from 'vue'
 import { avatarUrl, refreshAvatar, saveAvatar } from '@/composables/profileAvatar.js'
 
-const email = localStorage.getItem('email') || 'E-mail não informado'
+const email = ref(localStorage.getItem('email') || 'E-mail não informado')
+const emailDialog = ref(false)
+const passwordDialog = ref(false)
+const confirmationDialog = ref(false)
+const confirmationType = ref('')
+const newEmail = ref('')
+const confirmationEmail = ref('')
+const currentPassword = ref('')
+const newPassword = ref('')
+const confirmationPassword = ref('')
+const passwordFeedback = ref('')
 const name = ref(localStorage.getItem('displayName') || '')
 const avatarInput = ref(null)
 const feedback = ref('')
@@ -157,6 +302,74 @@ async function changeAvatar(event) {
     feedback.value = 'Não foi possível atualizar a foto.'
   } finally {
     bitmap?.close()
+  }
+}
+
+function openEmailDialog() {
+  newEmail.value = email.value === 'E-mail não informado' ? '' : email.value
+  confirmationEmail.value = ''
+  emailDialog.value = true
+}
+
+function openPasswordDialog() {
+  currentPassword.value = ''
+  newPassword.value = ''
+  confirmationPassword.value = ''
+  passwordFeedback.value = ''
+  passwordDialog.value = true
+}
+
+function openConfirmation(type) {
+  confirmationType.value = type
+  confirmationDialog.value = true
+}
+
+function confirmAction() {
+  confirmationDialog.value = false
+  if (confirmationType.value === 'email') confirmEmailChange()
+  else confirmPasswordChange()
+}
+
+function confirmPasswordChange() {
+  passwordFeedback.value =
+    'Nenhuma senha foi alterada. Esta funcionalidade ainda não está disponível.'
+}
+
+function validateEmail(value) {
+  if (!value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Informe um e-mail válido.'
+  if (value.toLowerCase() === email.value.toLowerCase())
+    return 'Informe um e-mail diferente do atual.'
+  return true
+}
+
+function validateEmailConfirmation(value, original) {
+  if (!value) return 'Confirme o novo e-mail.'
+  return value.toLowerCase() === original.toLowerCase() || 'Os e-mails não coincidem.'
+}
+
+function confirmEmailChange() {
+  if (
+    validateEmail(newEmail.value) !== true ||
+    validateEmailConfirmation(confirmationEmail.value, newEmail.value) !== true
+  )
+    return
+  try {
+    const oldAvatar = localStorage.getItem(
+      `questboard:avatar:${localStorage.getItem('email') || 'guest'}`,
+    )
+    const newAvatarKey = `questboard:avatar:${newEmail.value}`
+    if (oldAvatar && !localStorage.getItem(newAvatarKey))
+      localStorage.setItem(newAvatarKey, oldAvatar)
+    localStorage.setItem('email', newEmail.value)
+    email.value = newEmail.value
+    refreshAvatar()
+    emailDialog.value = false
+    feedbackError.value = false
+    feedback.value = 'E-mail atualizado neste navegador.'
+  } catch {
+    feedbackError.value = true
+    feedback.value = 'Não foi possível atualizar o e-mail neste navegador.'
+    emailDialog.value = false
   }
 }
 
@@ -215,12 +428,22 @@ h1 {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
+}
+.config-side {
+  display: flex;
+  flex-direction: column;
+}
+.preferences-card {
+  flex: 1;
 }
 .config-card {
   border-color: #4a365a;
   background: #271637;
   border-radius: 14px;
+}
+.about-card {
+  grid-column: 1 / -1;
 }
 .config-card :deep(.q-card__section) {
   padding: 24px;
@@ -245,6 +468,29 @@ h2 {
 }
 .avatar-input {
   display: none;
+}
+.dm-badge {
+  color: #190b28;
+  background: #dbb86f;
+  font-weight: 700;
+}
+.account-dialog {
+  width: 100%;
+  max-width: 480px;
+  color: #f8f4fb;
+  background: #271637;
+  border: 1px solid #4a365a;
+  border-radius: 14px;
+}
+.dialog-description {
+  color: #b9a9c4;
+}
+.account-dialog h2 {
+  color: #dbb86f;
+}
+.account-dialog :deep(.q-field__control) {
+  background: #30203f;
+  border-radius: 8px;
 }
 @media (max-width: 700px) {
   .page-content {

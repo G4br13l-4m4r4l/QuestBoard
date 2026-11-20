@@ -207,6 +207,8 @@ export const menuPages = {
         items: [
           {
             title: 'Data da próxima sessão',
+            id: 'data-sessao',
+            options: ['Sexta-feira', 'Sábado', 'Domingo'],
             meta: 'Encerra em 10 nov. · 3 de 5 votos',
             description: 'Escolha o melhor dia para o próximo encontro.',
             icon: 'calendar_month',
@@ -215,6 +217,8 @@ export const menuPages = {
           },
           {
             title: 'Próximo destino',
+            id: 'proximo-destino',
+            options: ['Torre', 'Porto'],
             meta: 'Encerra em 14 nov. · 2 de 5 votos',
             description: 'O grupo seguirá para a torre ou para o porto?',
             icon: 'alt_route',

@@ -8,6 +8,18 @@
           <h1>{{ page.title }}</h1>
           <p>{{ page.description }}</p>
         </div>
+        <q-space />
+        <q-btn
+          v-if="section === 'votacoes'"
+          round
+          unelevated
+          color="secondary"
+          icon="add"
+          aria-label="Adicionar votação"
+          to="/votacoes/nova"
+        >
+          <q-tooltip>Adicionar votação</q-tooltip>
+        </q-btn>
       </div>
 
       <div class="mock-banner">
@@ -27,27 +39,71 @@
         </q-card>
       </div>
 
+      <section v-if="section === 'votacoes' && localPolls.length" class="content-section">
+        <div class="section-heading">
+          <h2>Votações criadas neste navegador</h2>
+        </div>
+        <div class="items-grid">
+          <router-link
+            v-for="poll in localPolls"
+            :key="poll.id"
+            :to="`/votacoes/local/${encodeURIComponent(poll.id)}`"
+            class="poll-link"
+          >
+            <q-card flat bordered class="item-card">
+              <q-card-section>
+                <div class="row items-start no-wrap">
+                  <div class="item-icon"><q-icon name="how_to_vote" size="24px" /></div>
+                  <div class="col">
+                    <h3>{{ poll.title }}</h3>
+                    <div v-if="poll.endDate" class="item-meta">
+                      Data de encerramento: {{ poll.endDate.split('-').reverse().join('/') }}
+                    </div>
+                    <p v-if="poll.description" class="item-description q-mt-sm">
+                      {{ poll.description }}
+                    </p>
+                    <div class="item-meta q-mt-sm">
+                      {{ poll.responseType === 'free' ? 'Resposta livre' : 'Opções' }}
+                    </div>
+                    <ul v-if="poll.responseType !== 'free'" class="poll-options">
+                      <li v-for="(option, index) in poll.options" :key="index">{{ option }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </router-link>
+        </div>
+      </section>
       <section v-for="group in page.groups" :key="group.title" class="content-section">
         <div class="section-heading">
           <h2>{{ group.title }}</h2>
           <p>{{ group.subtitle }}</p>
         </div>
         <div class="items-grid">
-          <q-card v-for="item in group.items" :key="item.title" flat bordered class="item-card">
-            <q-card-section>
-              <div class="row items-start no-wrap">
-                <div class="item-icon"><q-icon :name="item.icon" size="24px" /></div>
-                <div class="col">
-                  <div class="row items-center justify-between q-col-gutter-sm">
-                    <h3 class="col-auto">{{ item.title }}</h3>
-                    <q-badge :color="item.color" :label="item.tag" class="q-px-sm q-py-xs" />
+          <component
+            v-for="item in group.items"
+            :key="item.title"
+            :is="section === 'votacoes' && item.id ? RouterLink : 'div'"
+            :to="section === 'votacoes' && item.id ? `/votacoes/exemplo/${item.id}` : undefined"
+            :class="{ 'poll-link': section === 'votacoes' && item.id }"
+          >
+            <q-card flat bordered class="item-card">
+              <q-card-section>
+                <div class="row items-start no-wrap">
+                  <div class="item-icon"><q-icon :name="item.icon" size="24px" /></div>
+                  <div class="col">
+                    <div class="row items-center justify-between q-col-gutter-sm">
+                      <h3 class="col-auto">{{ item.title }}</h3>
+                      <q-badge :color="item.color" :label="item.tag" class="q-px-sm q-py-xs" />
+                    </div>
+                    <div class="item-meta">{{ item.meta }}</div>
+                    <p class="item-description">{{ item.description }}</p>
                   </div>
-                  <div class="item-meta">{{ item.meta }}</div>
-                  <p class="item-description">{{ item.description }}</p>
                 </div>
-              </div>
-            </q-card-section>
-          </q-card>
+              </q-card-section>
+            </q-card>
+          </component>
         </div>
       </section>
     </div>
@@ -55,11 +111,21 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 import { menuPages } from '@/data/menuPages.js'
 
 const props = defineProps({ section: { type: String, required: true } })
 const page = computed(() => menuPages[props.section])
+const localPolls = ref([])
+onMounted(() => {
+  try {
+    const stored = JSON.parse(localStorage.getItem('questboard:polls') || '[]')
+    localPolls.value = Array.isArray(stored) ? stored : []
+  } catch {
+    localPolls.value = []
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -172,6 +238,26 @@ h3 {
 .item-description {
   color: #d9cbe2;
   margin: 0;
+}
+.poll-options {
+  margin: 0;
+  padding-left: 20px;
+  color: #d9cbe2;
+  overflow-wrap: anywhere;
+}
+.poll-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.poll-link:hover .item-card,
+.poll-link:focus-visible .item-card {
+  border-color: #dbb86f !important;
+}
+.poll-link:focus-visible {
+  outline: 2px solid #dbb86f;
+  border-radius: 13px;
 }
 @media (max-width: 700px) {
   .page-content {
