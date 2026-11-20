@@ -62,7 +62,9 @@
             </q-card-actions>
           </q-form>
         </q-card>
-        <img :src="decisionImage" alt="" class="poll-image" />
+        <div class="poll-image-container">
+          <img :src="decisionImage" alt="" class="poll-image" />
+        </div>
       </div>
     </div>
   </q-page>
@@ -134,21 +136,27 @@ h1 {
   display: grid;
   grid-template-columns: minmax(0, 600px) minmax(0, 1fr);
   gap: 24px;
-  align-items: start;
 }
-.poll-image {
-  width: 100%;
-  max-height: 480px;
-  object-fit: cover;
+.poll-image-container {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
   border: 1px solid #4a365a;
   border-radius: 13px;
+}
+.poll-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 @media (max-width: 800px) {
   .poll-layout {
     grid-template-columns: 1fr;
   }
-  .poll-image {
-    max-height: 320px;
+  .poll-image-container {
+    height: 320px;
   }
 }
 .poll-card :deep(.q-card__section) {
